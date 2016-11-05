@@ -31,11 +31,12 @@ app.post('/sender', function(req, res) {
     
     // リクエストボディを出力
     var d=dump(v);
-    console.log("request ip "+req.ip);
+    var remote=req.connection.remoteAddress;
+    console.log("request ip "+remote);
     console.log(d);
     
     var reg = new RegExp(process.env.IP_REG);
-    if (!req.ip.match(reg)) {
+    if (!remote.match(reg)) {
       console.log("ip not allow");
       res.send(d);
       return;
