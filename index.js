@@ -62,7 +62,7 @@ function postLine(postpara){
   request(options, function(error, response, body){
     if (!error && response.statusCode == 200) {
       console.log("line reply ok");
-      console.log('line reply error: '+ dump(response.body));
+      console.log('line reply body: '+ dump(response.body));
     } else {
       console.log('line reply error: '+ response.statusCode);
       console.log('line reply error: '+ dump(response.body));
