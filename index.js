@@ -1,5 +1,6 @@
-var express = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
+const util = require('util');
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -11,11 +12,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
+    var v=req.body;
     // リクエストボディを出力
-    console.log(req.body);
-    res.send('ok');
+    dump(v);
+    res.send(util.inspect(v));
 })
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+function dump(v){
+  console.log(util.inspect(v));
+}
