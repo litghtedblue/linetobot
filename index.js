@@ -6,22 +6,70 @@ const app = express();
 app.set('port', (process.env.PORT || 5000));
 
 // urlencodedとjsonは別々に初期化する
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
     var v=req.body;
+    
     // リクエストボディを出力
-    dump(v);
-    res.send(util.inspect(v));
+    var d=dump(v);
+    console.log(d);
+
+    var text=v.events[0].message.text;
+    console.log(text);
+    var token=v.events[0].replyToken;
+    console.log(token);
+
+    v.events.forEach(function(num){
+      var postpara={
+        text:num.message.text,
+        replyToken:num.replyToken
+      }
+      postLine(postpara);
+    });
+    
+    res.send(d);
 })
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
+function postLine(postpara){
+  var request = require('request');
+  var post={
+      "replyToken":postpara.replyToken,
+      "messages":[
+          {
+              "type":"text",
+              "text":postpara.text
+          },
+      ]
+  };
+
+  var options = {
+    uri: 'https://api.line.me/v2/bot/message/reply',
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json',
+      'Authorization':"Bearer "+process.env.LINE_CHANNEL_ACCESS_TOKEN
+    },
+    json: post,
+  };
+
+  console.log(dump(options));
+
+  request(options, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+      console.log("line reply ok");
+      console.log('line reply error: '+ dump(response.body));
+    } else {
+      console.log('line reply error: '+ response.statusCode);
+      console.log('line reply error: '+ dump(response.body));
+    }
+  });
+
+}
 function dump(v){
-  console.log(util.inspect(v,false,null));
+  return util.inspect(v,false,null);
 }
