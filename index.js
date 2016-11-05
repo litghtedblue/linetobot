@@ -32,6 +32,12 @@ app.post('/sender', function(req, res) {
     // リクエストボディを出力
     var d=dump(v);
     var remote=req.connection.remoteAddress;
+    
+    
+    res.send(dump(req.connection));
+    return;
+    
+    
     console.log("request ip "+remote);
     console.log(d);
     
