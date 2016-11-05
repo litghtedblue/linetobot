@@ -31,19 +31,15 @@ app.post('/sender', function(req, res) {
     
     // リクエストボディを出力
     var d=dump(v);
-    var remote=req.connection.remoteAddress;
+    var checkHeader=req.headers[process.env.REQ_ALLOW_HEAD];
     
-    
-    res.send(dump(req.connection));
-    return;
-    
-    
-    console.log("request ip "+remote);
+    //console.log(dump(req.headers));
+    console.log("request check header "+process.env.REQ_ALLOW_HEAD+":"+checkHeader);
     console.log(d);
     
-    var reg = new RegExp(process.env.IP_REG);
-    if (!remote.match(reg)) {
-      console.log("ip not allow");
+    var reg = new RegExp(process.env.REQ_ALLOW_HEAD_REG);
+    if (checkHeader==null || !checkHeader.match(reg)) {
+      console.log("this request invalid header");
       res.send(d);
       return;
     }
