@@ -23,5 +23,5 @@ app.listen(app.get('port'), function() {
 });
 
 function dump(v){
-  console.log(util.inspect(v));
+  console.log(util.inspect(v,false,null));
 }
