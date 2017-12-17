@@ -7,10 +7,10 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "ejs": "2.4.1",
-    "express": "4.13.3",
-    "body-parser":"1.15.2",
-    "request":"2.78.0"
+    "ejs": "2.5.7",
+    "express": "4.16.2",
+    "body-parser": "1.18.2",
+    "request": "2.83.0"
   },
   "repository": {
     "type": "git",
